@@ -22,17 +22,17 @@ public class ScheduleService {
   }
 
   public Appointment getAppointmentRequest() {
-    // TODO: Make API call
+    // TODO: Make API call, deserialize JSON body into AppointmentRequest
     return new Appointment(0, 0, null, false);
   }
 
   public Schedule getSchedule() {
-    // TODO: Make API call
+    // TODO: Make API call, deserialize JSON body into Schedule
     return new Schedule(new HashSet<>());
   }
 
-  public void postAppointmentToSchedule() {
-    // TODO: Make API call
+  public void postAppointmentToSchedule(Appointment appointment) {
+    // TODO: Serialize appointment into JSON for body, make API call
   }
 
 }
