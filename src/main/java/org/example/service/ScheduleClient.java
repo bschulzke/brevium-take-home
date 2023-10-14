@@ -47,6 +47,4 @@ public class ScheduleClient {
     return client.send(request, HttpResponse.BodyHandlers.ofString());
   }
 
-
-
 }
