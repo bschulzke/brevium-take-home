@@ -13,13 +13,11 @@ import java.util.List;
 
 public class ScheduleService {
 
-  private String authtoken;
   private ScheduleClient client;
   private Gson gson;
 
   public ScheduleService(String authtoken) {
     this.gson = new Gson();
-    this.authtoken = authtoken;
     this.client = new ScheduleClient(authtoken,
         "http://scheduling-interview-2021-265534043.us-west-2.elb.amazonaws.com/api/Scheduling");
   }
@@ -81,8 +79,18 @@ public class ScheduleService {
     return schedule;
   }
 
-  public void postAppointmentToSchedule(AppointmentDTO appointment) {
-    // TODO: Serialize appointment into JSON for body, make API call
+  public boolean postAppointmentToSchedule(AppointmentDTO appointment) {
+    String body = gson.toJson(appointment);
+    boolean success = false;
+    try {
+      HttpResponse<String> response = client.post("/Stop", body);
+      if (response.statusCode() == 200) {
+        success = true;
+      }
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    return success;
   }
 
 }
