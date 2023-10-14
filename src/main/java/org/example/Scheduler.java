@@ -10,6 +10,7 @@ import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Set;
 
 public class Scheduler {
 
@@ -35,7 +36,7 @@ public class Scheduler {
 
   private void scheduleAppointment(AppointmentRequest request) {
       for (ZonedDateTime date : request.getPreferredDays()) {
-        int doc = getAvailableDoc(request.getPreferredDocs());
+        int doc = getAvailableDoc(request.getPreferredDocs(), date);
         if (isValidDate(date, request, doc)) {
           AppointmentDTO dto = new AppointmentDTO(request.getPersonId(), doc, date.toString(), request.isNew());
           Appointment appointment = new Appointment(dto);
@@ -44,6 +45,7 @@ public class Scheduler {
         }
       }
       // TODO: How to handle cases where none of the preferred dates work?
+      // What about where none of the preferred doctors are available?
       // Should the scheduler pick the closest available match?
       // Should it prioritize matching the day of the week, the day of the month, preferred doctor, or time of day?
   }
@@ -73,9 +75,18 @@ public class Scheduler {
     }
   }
 
-  private int getAvailableDoc(List<Integer> preferredDocs) {
-    // TODO: Flesh out stub
-    return 0;
+  private Integer getAvailableDoc(List<Integer> preferredDocs, ZonedDateTime date) {
+    for (Integer docId : preferredDocs) {
+      Set<Appointment> docAppointments = schedule.getDoctorAppointments(docId);
+      for (Appointment apt : docAppointments) {
+        if (apt.getAppointmentTime() != date) {
+          return docId;
+        }
+      }
+    }
+    // TODO: Improve this failure case
+    // What's the protocol if no preferred doctor is available?
+    return null;
   }
 
 }
