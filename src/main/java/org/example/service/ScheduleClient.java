@@ -9,7 +9,7 @@ import java.time.Duration;
 
 public class ScheduleClient {
 
-  private final int TIMEOUT = 60;
+  private static final int TIMEOUT = 240;
 
   HttpClient client;
   String token;

@@ -13,7 +13,7 @@ public class Appointment {
   private boolean isNewPatientAppointment;
 
   public Appointment(AppointmentDTO dto) {
-    DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a z");
+    DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss a z");
     this.personId = dto.getPersonId();
     this.isNewPatientAppointment = dto.isNewPatientAppointment();
     this.appointmentTime = ZonedDateTime.parse(dto.getAppointmentTime(), formatter);
