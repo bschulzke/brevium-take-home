@@ -1,5 +1,8 @@
 package org.example.model;
 
+import org.example.dto.AppointmentDTO;
+import org.example.dto.ScheduleDTO;
+
 import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.ZonedDateTime;
@@ -10,8 +13,11 @@ public class Schedule {
 
   Set<Appointment> appointments;
 
-  public Schedule(Set<Appointment> appointments) {
-    this.appointments = appointments;
+  public Schedule(ScheduleDTO dto) {
+    appointments = new HashSet<>();
+    for (AppointmentDTO aptDto : dto.getAppointments()) {
+      appointments.add(new Appointment(aptDto));
+    }
   }
 
   public void addAppointment(Appointment appointment) throws AppointmentInvalidException {
@@ -46,6 +52,18 @@ public class Schedule {
     return doctorAppointments;
   }
 
+  public boolean docIsAvailable(ZonedDateTime date, int doctorId) {
+    Set<Appointment> docAppointments = getDoctorAppointments(doctorId);
+    boolean available = true;
+    for (Appointment appt : docAppointments) {
+      if (date.equals(appt.getAppointmentTime())) {
+        available = false;
+        break;
+      }
+    }
+    return available;
+  }
+
   public Set<Appointment> getPatientAppointments(int personId) {
     Set<Appointment> doctorAppointments = new HashSet<>();
     for (Appointment appointment : appointments) {
@@ -56,4 +74,15 @@ public class Schedule {
     return doctorAppointments;
   }
 
+  public boolean appointmentsTooClose(ZonedDateTime date, int personId) {
+    // TODO: Flesh out stub
+    return false;
+  }
+
+  @Override
+  public String toString() {
+    return "Schedule{" +
+        "appointments=" + appointments +
+        '}';
+  }
 }

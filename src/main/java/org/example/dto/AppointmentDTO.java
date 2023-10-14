@@ -1,22 +1,21 @@
-package org.example.model;
+package org.example.dto;
 
-import org.example.dto.AppointmentDTO;
-
-import java.time.ZonedDateTime;
-import java.time.format.DateTimeFormatter;
-
-public class Appointment {
+public class AppointmentDTO {
 
   private int doctorId;
   private int personId;
-  private ZonedDateTime appointmentTime;
+  private String appointmentTime;
   private boolean isNewPatientAppointment;
 
-  public Appointment(AppointmentDTO dto) {
-    DateTimeFormatter formatter  = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss a z");
-    this.personId = dto.getPersonId();
-    this.isNewPatientAppointment = dto.isNewPatientAppointment();
-    this.appointmentTime = ZonedDateTime.parse(dto.getAppointmentTime(), formatter);
+  // Empty constructor for GSON
+  public AppointmentDTO() {
+  }
+
+  public AppointmentDTO(int doctorId, int personId, String appointmentTime, boolean isNewPatientAppointment) {
+    this.doctorId = doctorId;
+    this.personId = personId;
+    this.appointmentTime = appointmentTime;
+    this.isNewPatientAppointment = isNewPatientAppointment;
   }
 
   public int getDoctorId() {
@@ -35,11 +34,11 @@ public class Appointment {
     this.personId = personId;
   }
 
-  public ZonedDateTime getAppointmentTime() {
+  public String getAppointmentTime() {
     return appointmentTime;
   }
 
-  public void setAppointmentTime(ZonedDateTime appointmentTime) {
+  public void setAppointmentTime(String appointmentTime) {
     this.appointmentTime = appointmentTime;
   }
 
