@@ -8,6 +8,7 @@ import org.example.model.AppointmentRequest;
 import org.example.model.Schedule;
 
 import java.net.http.HttpResponse;
+import java.util.List;
 
 public class ScheduleService {
 
@@ -23,7 +24,12 @@ public class ScheduleService {
   }
 
   public void start() {
-    // TODO: Make API call
+    try {
+      HttpResponse response = client.post("/Start", "");
+      System.out.println();
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
   }
 
   public ScheduleDTO stop() {
@@ -54,7 +60,9 @@ public class ScheduleService {
       HttpResponse<String> response = client.get("/Schedule");
       String body = response.body();
       if (response.statusCode() == 200) {
-        ScheduleDTO dto = gson.fromJson(body, ScheduleDTO.class);
+        List<AppointmentDTO> appointmentDTOS = gson.fromJson(body, List.class);
+        ScheduleDTO dto = new ScheduleDTO();
+        dto.setAppointments(appointmentDTOS);
         schedule = new Schedule(dto);
       } else {
         System.out.println("Response code: " + response.statusCode());
