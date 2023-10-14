@@ -8,6 +8,7 @@ import org.example.model.AppointmentRequest;
 import org.example.model.Schedule;
 
 import java.net.http.HttpResponse;
+import java.util.ArrayList;
 import java.util.List;
 
 public class ScheduleService {
@@ -25,16 +26,23 @@ public class ScheduleService {
 
   public void start() {
     try {
-      HttpResponse response = client.post("/Start", "");
-      System.out.println();
+      client.post("/Start", "");
     } catch (Exception e) {
       System.out.println(e.getMessage());
     }
   }
 
   public ScheduleDTO stop() {
-    // TODO: Make API call
-    return new ScheduleDTO();
+    ScheduleDTO scheduleDTO = new ScheduleDTO();
+    scheduleDTO.setAppointments(new ArrayList<>());
+    try {
+      HttpResponse<String> response = client.post("/Stop", "");
+      List<AppointmentDTO> appointmentDTOS = gson.fromJson(response.body(), List.class);
+      scheduleDTO.setAppointments(appointmentDTOS);
+    } catch (Exception e) {
+      System.out.println(e.getMessage());
+    }
+    return scheduleDTO;
   }
 
   public AppointmentRequest getNextAppointmentRequest() {

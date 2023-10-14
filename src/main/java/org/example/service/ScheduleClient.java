@@ -5,8 +5,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.time.Duration;
 
 public class ScheduleClient {
+
+  private final int TIMEOUT = 60;
 
   HttpClient client;
   String token;
@@ -19,7 +22,9 @@ public class ScheduleClient {
   }
 
   public HttpResponse<String> get(String path) throws IOException, InterruptedException {
-    var client = HttpClient.newHttpClient();
+    var client = HttpClient.newBuilder()
+        .connectTimeout(Duration.ofSeconds(TIMEOUT))
+        .build();
 
     // create a request
     var request = HttpRequest.newBuilder(

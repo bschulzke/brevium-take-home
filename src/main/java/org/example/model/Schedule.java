@@ -7,6 +7,7 @@ import java.time.DayOfWeek;
 import java.time.Month;
 import java.time.ZonedDateTime;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 public class Schedule {
@@ -15,7 +16,8 @@ public class Schedule {
 
   public Schedule(ScheduleDTO dto) {
     appointments = new HashSet<>();
-    for (AppointmentDTO aptDto : dto.getAppointments()) {
+    List<AppointmentDTO> appointmentDTOS = dto.getAppointments();
+    for (AppointmentDTO aptDto : appointmentDTOS) {
       appointments.add(new Appointment(aptDto));
     }
   }
