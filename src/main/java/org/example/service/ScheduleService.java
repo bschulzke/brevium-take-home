@@ -34,7 +34,7 @@ public class ScheduleService {
   public AppointmentRequest getNextAppointmentRequest() {
     AppointmentRequest appointmentRequest = null;
     try {
-      HttpResponse<String> response = client.get("/Schedule");
+      HttpResponse<String> response = client.get("/AppointmentRequest");
       String body = response.body();
       if (response.statusCode() == 200) {
         AppointmentRequestDTO dto = gson.fromJson(body, AppointmentRequestDTO.class);
@@ -51,7 +51,7 @@ public class ScheduleService {
   public Schedule getSchedule() {
     Schedule schedule = null;
     try {
-      HttpResponse<String> response = client.get("/AppointmentRequest");
+      HttpResponse<String> response = client.get("/Schedule");
       String body = response.body();
       if (response.statusCode() == 200) {
         ScheduleDTO dto = gson.fromJson(body, ScheduleDTO.class);
